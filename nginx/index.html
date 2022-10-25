@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>web-chat</title>
+</head>
+<body>
+    <div class="container">
+        <div id="blockSendMessage" class="row">
+            <input id="inputMessage" type="text" placeholder="Сообщение">
+            <button id="btnSend" type="button">Отправить</button>
+        </div>
+    </div>
+
+    <div id="divMessages" class="message border rounded container">
+    </div>
+
+
+    <script>
+        // Получаем элемент чата
+        let chat = document.querySelector("#divMessages")
+        // Получаем строку ввода сообщения
+        let input = document.querySelector("#inputMessage")
+        // Получаем кнопку для ввода сообщения
+        let btnSubmit = document.querySelector("#btnSend")
+
+        let socket = new WebSocket("ws://localhost/ws");
+
+        socket.onopen = function(e) {
+            console.log("[open] Соединение установлено");
+
+        };
+
+        socket.onmessage = function(event) {
+            console.log(`[message] Данные получены с сервера: ${event.data}`);
+            chat.innerHTML += '<p>' + event.data + '</p>'
+        };
+
+        socket.onclose = function(event) {
+        if (event.wasClean) {
+            console.log(`[close] Соединение закрыто чисто, код=${event.code} причина=${event.reason}`);
+        } else {
+            // например, сервер убил процесс или сеть недоступна
+            // обычно в этом случае event.code 1006
+            console.log('[close] Соединение прервано');
+        }
+        };
+
+        socket.onerror = function(error) {
+            
+        };
+
+        // Отслеживаем нажатие мыши
+        btnSubmit.addEventListener("click", () => {
+            // Получаем текст из формы для ввода сообщения
+            message = input.value;
+            // Отправка сообщения через WS
+            socket.send(message);
+            // Очищаем поле для ввода текста
+            input.value = '';
+        })
+    </script>
+        
+</body>
+</html>
