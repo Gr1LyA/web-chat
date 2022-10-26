@@ -12,7 +12,7 @@
         </div>
     </div>
 
-    <div id="divMessages" class="message border rounded container">
+    <div id="divMessages">
     </div>
 
 
@@ -28,7 +28,6 @@
 
         socket.onopen = function(e) {
             console.log("[open] Соединение установлено");
-
         };
 
         socket.onmessage = function(event) {
@@ -37,17 +36,13 @@
         };
 
         socket.onclose = function(event) {
-        if (event.wasClean) {
-            console.log(`[close] Соединение закрыто чисто, код=${event.code} причина=${event.reason}`);
-        } else {
-            // например, сервер убил процесс или сеть недоступна
-            // обычно в этом случае event.code 1006
-            console.log('[close] Соединение прервано');
-        }
-        };
-
-        socket.onerror = function(error) {
-            
+            if (event.wasClean) {
+                console.log(`[close] Соединение закрыто чисто, код=${event.code} причина=${event.reason}`);
+            } else {
+                // например, сервер убил процесс или сеть недоступна
+                // обычно в этом случае event.code 1006
+                console.log('[close] Соединение прервано');
+            }
         };
 
         // Отслеживаем нажатие мыши
