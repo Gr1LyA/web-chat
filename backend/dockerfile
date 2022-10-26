@@ -7,4 +7,4 @@ COPY ./goservice .
 RUN go mod tidy && go build
 RUN cp web-chat .. && rm -rf * && mv ../web-chat .
 
-ENTRYPOINT ./web-chat serv
+ENTRYPOINT ./web-chat
