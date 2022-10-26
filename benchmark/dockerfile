@@ -1,0 +1,5 @@
+FROM node
+
+RUN npm i -g https://github.com/observing/thor
+
+ENTRYPOINT thor --amount 1000 ws://172.17.0.1/ws
